@@ -1,7 +1,7 @@
 # Cardano Haskell package repository ("CHaP")
 
-* [All packages](https://chap.intersectmbo.org/all-packages/).
-* [All package versions](https://chap.intersectmbo.org/all-package-versions/).
+* [All packages](https://chap.apexfusion.org/all-packages/).
+* [All package versions](https://chap.apexfusion.org/all-package-versions/).
 
 *Top How-Tos*
 
@@ -12,8 +12,8 @@
 This is a Cabal package repository ("CHaP") whose purpose is to contain all the Haskell
 packages used by the Cardano open-source project which are not on Hackage.
 
-The package repository itself is available [here](https://chap.intersectmbo.org).
-It is built from a [git repository](https://github.com/intersectmbo/cardano-haskell-packages) which
+The package repository itself is available [here](https://chap.apexfusion.org).
+It is built from a [git repository](https://github.com/Apex-Fusion/vector-chap) which
 contains the metadata specifying all the package versions. The package repository is built using
 [`foliage`](https://github.com/andreabedini/foliage).
 
@@ -56,15 +56,13 @@ To use CHaP with cabal, add the following lines to your
 
 ```
 repository cardano-haskell-packages
-  url: https://chap.intersectmbo.org/
+  url: https://chap.apexfusion.org/
   secure: True
   root-keys:
-    3e0cce471cf09815f930210f7827266fd09045445d65923e6d0238a6cd15126f
-    443abb7fb497a134c343faf52f0b659bd7999bc06b7f63fa76dc99d631f9bea1
-    a86a1f6ce86c449c46666bda44268677abf29b5b2d2eb5ec7af903ec2f117a82
-    bcec67e8e99cabfa7764d75ad9b158d72bfacf70ca1d0ec8bc6b4406d1bf8413
-    c00aae8461a256275598500ea0e187588c35a5d5d7454fb57eac18d9edb86a56
-    d4a35cd3121aa00d18544bb0ac01c3e1691d618f462c46129271bccf39f7e8ee
+    4bc8fa1957ed203a2ed8806a1b1067a562af2ef78d950931bb4bb49155e2d1f8
+    aa88719f2753fd445fa468da34d31aee4750a1b2184425514e9abc2999bf2d73
+    c5faeffe492eb0d141d79f83bc3448f14940156dd07448b63e541849be2d6ed0
+
 ```
 
 The package repository will be understood by cabal, and can be updated with `cabal update`.
@@ -102,7 +100,7 @@ To use CHaP with `haskell.nix`, do the following:
 2. Setup a fetcher for the package repository. The easiest way is to use a flake input, such as:
 ```
 inputs.CHaP = {
-  url = "github:intersectmbo/cardano-haskell-packages?ref=repo";
+  url = "github:Apex-Fusion/vector-chap?ref=repo";
   flake = false;
 };
 ```
@@ -110,7 +108,7 @@ inputs.CHaP = {
 ```
 cabalProject {
   ...
-  inputMap = { "https://chap.intersectmbo.org/" = CHaP; };
+  inputMap = { "https://chap.apexfusion.org/" = CHaP; };
 }
 ```
 
@@ -126,12 +124,25 @@ of the packages in CHaP. Then cabal will rebuild them both. If this becomes a pr
 you can consider adding the patched package to CHaP itself,
 see [below](#how-do-i-add-a-patched-versions-of-a-hackage-package-to-chap).
 
+Warning: Haskell.nix cannot parse the `index-state` syntax with multiple
+repositories (see [haskell.nix#1869](https://github.com/input-output-hk/haskell.nix/issues/1869)).
+You can use the following workaround to appease both Haskell.nix and cabal.
+
+```
+-- haskell.nix will parse this (https://github.com/input-output-hk/haskell.nix/issues/1869)
+index-state: 2022-12-31T00:00:00Z
+-- cabal will overwrite the above with this
+index-state:
+  , hackage.haskell.org      2022-12-31T00:00:00Z
+  , cardano-haskell-packages 2022-08-25T00:00:00Z
+```
+
 ### Updating dependencies from CHaP
 
 If you have a Haskell project which has bounds on CHaP packages, we provide a script which will update all of those bounds to
 pin the latest major version of each that is released to CHaP.
 
-You can run it like so: `nix run --update-input CHaP --no-write-lock-file "github:intersectmbo/cardano-haskell-packages#update-chap-deps" pkgA pkgB`.
+You can run it like so: `nix run --update-input CHaP --no-write-lock-file "github:Apex-Fusion/vector-chap#update-chap-deps" pkgA pkgB`.
 This will update the bounds for everything from CHaP, except for those on `pkgA` or `pkgB`. This lets you blacklist packages
 that you don't want to update (e.g. because you know that the update will break you, or it's your own package!).
 
@@ -288,10 +299,10 @@ However if you are making a large number of changes (e.g. many revisions), it ca
 The Cabal package repository itself is built using the tool `foliage`.
 You can either fetch the latest version which is stored in git; or build it yourself locally, which can be convenient or necessary if you have local changes.
 
-#### ... by downloading it from Github
+### ... by downloading it from Github
 
 The built repository is stored in the `repo` branch of CHaP itself.
-You can get the contents of the `repo` branch from Github at https://github.com/intersectmbo/cardano-haskell-packages/archive/refs/heads/repo.zip .
+You can get the contents of the `repo` branch from Github at https://github.com/Apex-Fusion/vector-chap/archive/refs/heads/repo.zip .
 
 Or you can check out that branch and copy the contents, e.g.
 ```
@@ -299,14 +310,6 @@ git checkout repo
 cp -aR . _repo
 git checkout -
 ```
-
-You can also check it out as a worktree:
-
-```
-git worktree add _repo repo
-```
-
-When using this later, remember to pull before creating a revision.
 
 #### ... by building it locally
 

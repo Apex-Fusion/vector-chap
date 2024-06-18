@@ -65,7 +65,7 @@ library
                        , io-classes >= 1.4.1
                        , network
                        , ouroboros-network-api
-                       , ouroboros-network-framework >= 0.8 && < 0.14
+                       , ouroboros-network-framework >= 0.8 && < 0.13
                        , serialise
                        , stm
                        , text
