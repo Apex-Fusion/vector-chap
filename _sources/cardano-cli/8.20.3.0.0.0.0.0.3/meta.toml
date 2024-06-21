@@ -1,0 +1,3 @@
+timestamp = 2024-06-21T20:51:50Z
+github = { repo = "Apex-Fusion/vector-cli", rev = "103047ebdcb5ceef0c53e73d475201c024eff370" }
+subdir = 'cardano-cli'
