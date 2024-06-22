@@ -1,0 +1,3 @@
+timestamp = 2024-06-22T07:43:03Z
+github = { repo = "Apex-Fusion/vector-ledger", rev = "5e0d3b123dd654d371347c15defa97f1901035ae" }
+subdir = 'eras/allegra/impl'
