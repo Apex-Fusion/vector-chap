@@ -1,3 +1,3 @@
-timestamp = 2024-06-29T00:37:04Z
+timestamp = 2023-11-15T12:07:29Z
 github = { repo = "Apex-Fusion/vector-ledger", rev = "cd4538fa6e16d229437034ad42613efc0d7e94f8" }
 subdir = 'libs/cardano-ledger-api'
